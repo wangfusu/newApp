@@ -19,7 +19,7 @@ func JWT() gin.HandlerFunc {
 			token = c.GetHeader("token")
 		}
 		if token == "" {
-			ecode = errcode.InvalidParams
+			ecode = errcode.UnauthorizedTokenNotFound
 		} else {
 			_, err := app.ParseToken(token)
 			if err != nil {

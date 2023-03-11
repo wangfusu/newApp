@@ -3,12 +3,12 @@ package service
 import "errors"
 
 type AuthRequest struct {
-	AppKey    string `form:"app_key" binding:"required"`
-	AppSecret string `form:"app_secret" binding:"required"`
+	User     string `form:"user" binding:"max=20"`
+	Password string `json:"password" binding:"max=20"`
 }
 
 func (svc *Service) CheckAuth(param *AuthRequest) error {
-	auth, err := svc.dao.GetAuth(param.AppKey, param.AppSecret)
+	auth, err := svc.dao.GetAuth(param.User, param.Password)
 	if err != nil {
 		return err
 	}

@@ -37,12 +37,10 @@ func NewRouter() *gin.Engine {
 	//url := ginSwagger.URL("http://127.0.0.1:8000/swagger/doc.json") //swagger路由 指向这个url
 	//r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 	r.StaticFS("/static", http.Dir(global.AppSetting.UploadSavePath)) //静态访问
-	login := v1.Login{}
 	apiv1 := r.Group("api/v1")
 	{
-		apiv1.POST("/login", login.Login)
-		apiv1.POST("/loginOut", login.LoginOut)
-		r.POST("/auth", v1.GetAuth)
+		apiv1.POST("/login", v1.Login)
+		//apiv1.POST("/loginOut", login)
 		//apiv1.POST("/register", login.Register)
 	}
 	user := v1.User{}

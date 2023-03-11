@@ -8,7 +8,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetAuth(c *gin.Context) {
+// @Summary 登陆
+// @Produce  json
+// @Param name query string false "用户名" maxlength(20)
+// @Param password query string false "密码" Emaxlength(20)
+// @Success 200 {object} model.Login "成功"
+// @Failure 400 {object} errcode.Error "请求错误"
+// @Failure 500 {object} errcode.Error "内部错误"
+// @Router /api/v1/login [post]
+func Login(c *gin.Context) {
 	param := service.AuthRequest{}
 	response := app.NewResponse(c)
 	valid, errs := app.BindAndValid(c, &param)
@@ -26,7 +34,7 @@ func GetAuth(c *gin.Context) {
 		return
 	}
 
-	token, err := app.GenerateToken(param.AppKey, param.AppSecret)
+	token, err := app.GenerateToken(param.User, param.Password)
 	if err != nil {
 		global.Logger.Errorf("app.GenerateToken err: %v", err)
 		response.ToErrorResponse(errcode.UnauthorizedTokenGenerate)
@@ -34,6 +42,18 @@ func GetAuth(c *gin.Context) {
 	}
 
 	response.ToResponse(gin.H{
+		"user":  param.User,
 		"token": token,
 	})
+}
+
+// @Summary 登出
+// @Produce  json
+// @Param name query string false "用户名" maxlength(20)
+// @Success 200 {string} string "成功"
+// @Failure 400 {object} errcode.Error "请求错误"
+// @Failure 500 {object} errcode.Error "内部错误"
+// @Router /api/v1/loginOut [post]
+func LoginOut(c *gin.Context) {
+	return
 }
