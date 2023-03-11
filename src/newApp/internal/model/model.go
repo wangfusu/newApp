@@ -10,8 +10,6 @@ import (
 )
 
 type Model struct {
-	User       string `json:"user"`
-	Password   string `json:"password"`
 	ID         uint32 `gorm:"primary_key" json:"id"`
 	CreatedBy  string `json:"created_by"`
 	ModifiedBy string `json:"modified_by"`

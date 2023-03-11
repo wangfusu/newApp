@@ -84,7 +84,7 @@ func setupDBEngine() error {
 		return err
 	}
 	global.DBEngine.AutoMigrate(model.Model{})
-	if err1 := global.DBEngine.AutoMigrate(&model.Model{}).Error; err1 != nil {
+	if err1 := global.DBEngine.AutoMigrate(&model.Auth{}).Error; err1 != nil {
 		global.Logger.Error(err1)
 	}
 	return nil

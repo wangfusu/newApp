@@ -3,9 +3,10 @@ package model
 import "github.com/jinzhu/gorm"
 
 type Auth struct {
-	*Model
+	ID       uint32 `gorm:"primary_key" json:"id"`
 	User     string `json:"user"`
 	Password string `json:"password"`
+	IsDel    uint8  `json:"is_del"`
 }
 
 func (a Auth) TableName() string {
