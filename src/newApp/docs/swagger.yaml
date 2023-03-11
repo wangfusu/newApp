@@ -1,0 +1,220 @@
+definitions:
+  errcode.Error:
+    type: object
+  model.Login:
+    properties:
+      password:
+        type: string
+      user:
+        type: string
+    type: object
+  model.User:
+    properties:
+      name:
+        type: string
+      password:
+        type: string
+      user:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Go BASE APP
+  termsOfService: https://github.com/wangfusu
+  title: NewAPP
+  version: "1.0"
+paths:
+  /api/v1/Users:
+    get:
+      parameters:
+      - description: 用户名
+        in: query
+        maxLength: 20
+        name: usern
+        type: string
+      - description: 密码
+        in: query
+        maxLength: 20
+        name: password
+        type: string
+      - description: 页码
+        in: query
+        name: name
+        type: integer
+      - description: 每页数量
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/model.User'
+        "400":
+          description: 请求错误
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: 获取多个用户
+      tags:
+      - 用户
+    post:
+      parameters:
+      - description: 用户
+        in: body
+        maxLength: 20
+        minLength: 2
+        name: user
+        required: true
+        schema:
+          type: string
+      - description: 密码
+        in: body
+        maxLength: 20
+        minLength: 8
+        name: password
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/model.User'
+        "400":
+          description: 请求错误
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: 新增用户
+      tags:
+      - 用户
+  /api/v1/Users/{id}:
+    delete:
+      parameters:
+      - description: 用户 ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            type: string
+        "400":
+          description: 请求错误
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: 删除标签
+      tags:
+      - 用户
+    put:
+      parameters:
+      - description: 用户 ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 用户名
+        in: body
+        maxLength: 20
+        minLength: 2
+        name: name
+        schema:
+          type: string
+      - description: 密码
+        in: body
+        maxLength: 20
+        minLength: 8
+        name: password
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            items:
+              $ref: '#/definitions/model.User'
+            type: array
+        "400":
+          description: 请求错误
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: 更新用户
+      tags:
+      - 用户
+  /api/v1/login:
+    post:
+      parameters:
+      - description: 用户名
+        in: query
+        maxLength: 20
+        name: name
+        type: string
+      - description: 密码
+        in: query
+        name: password
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/model.Login'
+        "400":
+          description: 请求错误
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: 登陆
+  /api/v1/loginOut:
+    post:
+      parameters:
+      - description: 用户名
+        in: query
+        maxLength: 20
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            type: string
+        "400":
+          description: 请求错误
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: 登出
+swagger: "2.0"
