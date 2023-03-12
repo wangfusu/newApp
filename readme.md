@@ -19,10 +19,10 @@ docker pull jaegertracing/all-in-one:latest 拉取总包, 如果想指定版本�
 
     go run main.go -port=8000 -mode=release -config=configs/
 ## 命令行打包命令
+提示：一行一行的执行
 
     go build -ldflags \
-    "-X main.buildTime = `date +%Y-%m-%d,%H:%M:%S` -X main.buildVersion=1.0.0 -X main.gitCommitID=`git rev-parse HEAD`"
-
+    "-X main.buildTime=`date +%Y-%m-%d,%H:%M:%S` -X main.buildVersion=1.0.1 -X main.gitCommitID=`git rev-parse HEAD`"
 
 # 目录结构
 ## configs:
