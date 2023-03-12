@@ -25,7 +25,6 @@ func Login(c *gin.Context) {
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
 		return
 	}
-
 	svc := service.New(c.Request.Context())
 	err := svc.CheckAuth(&param)
 	if err != nil {
