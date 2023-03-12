@@ -37,7 +37,7 @@ func (t User) List(c *gin.Context) {
 	response := app.NewResponse(c)
 	valid, errs := app.BindAndValid(c, &param)
 	if !valid {
-		global.Logger.Errorf("app.BindAndValid errs: %v", errs)
+		global.Logger.Errorf(c, "app.BindAndValid errs: %v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
 		return
 	}
@@ -46,14 +46,14 @@ func (t User) List(c *gin.Context) {
 	pager := app.Pager{Page: app.GetPage(c), PageSize: app.GetPageSize(c)}
 	totalRows, err := svc.CountUser(&service.CountUserRequest{Name: param.Name, State: param.State})
 	if err != nil {
-		global.Logger.Errorf("svc.CountUser err: %v", err)
+		global.Logger.Errorf(c, "svc.CountUser err: %v", err)
 		response.ToErrorResponse(errcode.ErrorCountUserFail)
 		return
 	}
 
 	Users, err := svc.GetUserList(&param, &pager)
 	if err != nil {
-		global.Logger.Errorf("svc.GetUserList err: %v", err)
+		global.Logger.Errorf(c, "svc.GetUserList err: %v", err)
 		response.ToErrorResponse(errcode.ErrorGetUserListFail)
 		return
 	}
@@ -76,7 +76,7 @@ func (t User) Create(c *gin.Context) {
 	response := app.NewResponse(c)
 	valid, errs := app.BindAndValid(c, &param)
 	if !valid {
-		global.Logger.Errorf("app.BindAndValid errs: %v", errs)
+		global.Logger.Errorf(c, "app.BindAndValid errs: %v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
 		return
 	}
@@ -84,7 +84,7 @@ func (t User) Create(c *gin.Context) {
 	svc := service.New(c.Request.Context())
 	err := svc.CreateUser(&param)
 	if err != nil {
-		global.Logger.Errorf("svc.CreateUser err: %v", err)
+		global.Logger.Errorf(c, "svc.CreateUser err: %v", err)
 		response.ToErrorResponse(errcode.ErrorCreateUserFail)
 		return
 	}
@@ -109,7 +109,7 @@ func (t User) Update(c *gin.Context) {
 	response := app.NewResponse(c)
 	valid, errs := app.BindAndValid(c, &param)
 	if !valid {
-		global.Logger.Errorf("app.BindAndValid errs: %v", errs)
+		global.Logger.Errorf(c, "app.BindAndValid errs: %v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
 		return
 	}
@@ -117,7 +117,7 @@ func (t User) Update(c *gin.Context) {
 	svc := service.New(c.Request.Context())
 	err := svc.UpdateUser(&param)
 	if err != nil {
-		global.Logger.Errorf("svc.UpdateUser err: %v", err)
+		global.Logger.Errorf(c, "svc.UpdateUser err: %v", err)
 		response.ToErrorResponse(errcode.ErrorUpdateUserFail)
 		return
 	}
@@ -139,7 +139,7 @@ func (t User) Delete(c *gin.Context) {
 	response := app.NewResponse(c)
 	valid, errs := app.BindAndValid(c, &param)
 	if !valid {
-		global.Logger.Errorf("app.BindAndValid errs: %v", errs)
+		global.Logger.Errorf(c, "app.BindAndValid errs: %v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
 		return
 	}
@@ -147,7 +147,7 @@ func (t User) Delete(c *gin.Context) {
 	svc := service.New(c.Request.Context())
 	err := svc.DeleteUser(&param)
 	if err != nil {
-		global.Logger.Errorf("svc.DeleteUser err: %v", err)
+		global.Logger.Errorf(c, "svc.DeleteUser err: %v", err)
 		response.ToErrorResponse(errcode.ErrorDeleteUserFail)
 		return
 	}

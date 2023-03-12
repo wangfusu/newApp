@@ -6,6 +6,8 @@ import (
 	"NewApp/internal/routers"
 	"NewApp/pkg/logger"
 	"NewApp/pkg/setting"
+	"NewApp/pkg/tracer"
+	"context"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/natefinch/lumberjack.v2"
 	"log"
@@ -26,6 +28,10 @@ func init() {
 	if err != nil {
 		log.Fatalf("init.setupLogger err: %v", err)
 	}
+	err = setupTracer()
+	if err != nil {
+		log.Fatalf("init.setupTracer, err:%v", err)
+	}
 }
 
 // @title NewAPP
@@ -33,7 +39,8 @@ func init() {
 // @description Go BASE APP
 // @termsOfService https://github.com/wangfusu
 func main() {
-	global.Logger.Infof("%s: wwtest %s", "newApp", "log")
+	c := context.Background()
+	global.Logger.Error(c, "ww test err")
 	gin.SetMode(global.ServerSetting.RunMode)
 	router := routers.NewRouter()
 	s := &http.Server{
@@ -85,7 +92,8 @@ func setupDBEngine() error {
 	}
 	global.DBEngine.AutoMigrate(model.Model{})
 	if err1 := global.DBEngine.AutoMigrate(&model.Auth{}).Error; err1 != nil {
-		global.Logger.Error(err1)
+		c := context.Background()
+		global.Logger.Error(c, err1)
 	}
 	return nil
 }
@@ -98,5 +106,16 @@ func setupLogger() error {
 		MaxAge:    10,
 		LocalTime: true,
 	}, "", log.LstdFlags).WithCaller(2)
+	return nil
+}
+func setupTracer() error {
+	jaegerTracer, _, err := tracer.NewJaegerTracer(
+		"newApp-service",
+		"127.0.0.1:6831",
+	)
+	if err != nil {
+		return err
+	}
+	global.Tracer = jaegerTracer
 	return nil
 }

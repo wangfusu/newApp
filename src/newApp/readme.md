@@ -35,3 +35,19 @@
 更新动作，用于更新某一个资源的一个组成部分，也就是说，当只需要更新改资源的某一项时，应该使用PATCH而不是PUT，可以不幂等。
 ## DELETE:  
 删除动作
+
+## 链路追踪
+docker pull jaegertracing/all-in-one:latest 拉取总包, 如果想指定版本可以将latest换成指定的版本  
+### 安装并启动
+
+    docker run -d --name jaeger \
+    -e COLLECTOR_ZIPKIN_HTTP_FORT=9411 \
+    -p 5775:5775/udp \
+    -p 6831:6831/udp \
+    -p 6832:6832/udp \
+    -p 5778:5778 \
+    -p 16686:16686 \
+    -p 14268:14268 \
+    -p 9411:9411 \
+    jaegertracing/all-in-one:1.16
+访问地址 http://localhost:16686
