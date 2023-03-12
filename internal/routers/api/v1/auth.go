@@ -25,6 +25,7 @@ func Login(c *gin.Context) {
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
 		return
 	}
+
 	svc := service.New(c.Request.Context())
 	err := svc.CheckAuth(&param)
 	if err != nil {
@@ -39,7 +40,6 @@ func Login(c *gin.Context) {
 		response.ToErrorResponse(errcode.UnauthorizedTokenGenerate)
 		return
 	}
-
 	response.ToResponse(gin.H{
 		"user":  param.User,
 		"token": token,

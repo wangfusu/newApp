@@ -37,11 +37,11 @@ JWT:
   Issuer: app-service
   Expire: 7200
 Email:
-  Host: smtp.qq.com
+  Host: smtp.exmail.qq.com
   Port: 465
-  UserName: xxxx@qq.com
-  Password: xxxxxxxx
+  UserName: wangwei7@cloudwalk.com
+  Password: Ww1234567
   IsSSL: true
-  From: xxxx@qq.com
+  From: 1479425620@qq.com
   To:
-    - xxxx@qq.com
+    - 610900762@qq.com
