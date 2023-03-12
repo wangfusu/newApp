@@ -6,6 +6,7 @@ import (
 	"NewApp/pkg/app"
 	"NewApp/pkg/errcode"
 	"github.com/gin-gonic/gin"
+	"log"
 )
 
 // @Summary 登陆
@@ -40,6 +41,9 @@ func Login(c *gin.Context) {
 		response.ToErrorResponse(errcode.UnauthorizedTokenGenerate)
 		return
 	}
+	temp := []int{}
+	log.Println(temp[1])
+
 	response.ToResponse(gin.H{
 		"user":  param.User,
 		"token": token,

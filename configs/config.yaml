@@ -1,5 +1,5 @@
 Server:
-  RunMode: debug
+  RunMode: release
   HttpPort: 8000
   ReadTimeout: 60
   WriteTimeout: 60
@@ -37,10 +37,10 @@ JWT:
   Issuer: app-service
   Expire: 7200
 Email:
-  Host: smtp.exmail.qq.com
+  Host: smtp.qq.com
   Port: 465
-  UserName: wangwei7@cloudwalk.com
-  Password: Ww1234567
+  UserName: 1479425620@qq.com
+  Password: eoxfolpimwyvffji
   IsSSL: true
   From: 1479425620@qq.com
   To:
