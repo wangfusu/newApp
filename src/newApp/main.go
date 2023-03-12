@@ -9,6 +9,7 @@ import (
 	"NewApp/pkg/tracer"
 	"context"
 	"flag"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/natefinch/lumberjack.v2"
 	"log"
@@ -18,9 +19,13 @@ import (
 )
 
 var (
-	port    string
-	runMode string
-	config  string
+	port         string
+	runMode      string
+	config       string
+	isVersion    bool
+	buildTime    string
+	buildVersion string
+	gitCommitID  string
 )
 
 func init() {
@@ -49,8 +54,12 @@ func init() {
 // @description Go BASE APP
 // @termsOfService https://github.com/wangfusu
 func main() {
-	c := context.Background()
-	global.Logger.Error(c, "ww test err")
+	if isVersion {
+		fmt.Printf("build_time: %s\n", buildTime)
+		fmt.Printf("build_version: %s\n", buildVersion)
+		fmt.Printf("git_commit_id: %s\n", gitCommitID)
+		return
+	}
 	gin.SetMode(global.ServerSetting.RunMode)
 	router := routers.NewRouter()
 	s := &http.Server{
@@ -140,6 +149,7 @@ func setupFlag() error {
 	flag.StringVar(&port, "port", "", "启动端口")
 	flag.StringVar(&runMode, "mode", "", "启动端口")
 	flag.StringVar(&config, "config", "configs/", "指定要使用的配置文件路径")
+	flag.BoolVar(&isVersion, "version", false, "编译信息")
 	flag.Parse()
 	return nil
 }
