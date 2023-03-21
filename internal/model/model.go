@@ -3,6 +3,7 @@ package model
 import (
 	"NewApp/global"
 	"NewApp/pkg/setting"
+	"context"
 	"fmt"
 	otgorm "github.com/eddycjy/opentracing-gorm"
 	"github.com/jinzhu/gorm"
@@ -35,6 +36,9 @@ func NewDBEngine(databaseSetting *setting.DatabaseSettingS) (*gorm.DB, error) {
 	}
 	if global.ServerSetting.RunMode == "debug" {
 		db.LogMode(true)
+	}
+	if err1 := db.AutoMigrate(&User{}).Error; err1 != nil {
+		global.Logger.Error(context.Background(), err1)
 	}
 	db.SingularTable(true)
 	db.Callback().Create().Replace("gorm:update_time_stamp", updateTimeStampForCreateCallback)

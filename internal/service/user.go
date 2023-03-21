@@ -16,9 +16,10 @@ type UserListRequest struct {
 }
 
 type CreateUserRequest struct {
-	Name      string `form:"name" binding:"required,min=2,max=100"`
-	CreatedBy string `form:"created_by" binding:"required,min=2,max=100"`
-	State     uint8  `form:"state,default=1" binding:"oneof=0 1"`
+	User     string `form:"user" binding:"required,min=2,max=100"`
+	Password string `json:"password" binding:"required,ming=8,max=20"`
+	Email    string `json:"email" binding:"required,min=10,max=30"`
+	State    uint8  `form:"state,default=1" binding:"oneof=0 1"`
 }
 
 type UpdateUserRequest struct {
@@ -32,6 +33,13 @@ type DeleteUserRequest struct {
 	ID uint32 `form:"id" binding:"required,gte=1"`
 }
 
+type CheckEmail struct {
+	Email string `form:"email" json:"email" binding:"required"`
+}
+type CheckUser struct {
+	User string `json:"user"`
+}
+
 func (svc *Service) CountUser(param *CountUserRequest) (int, error) {
 	return svc.dao.CountUser(param.Name, param.State)
 }
@@ -41,7 +49,7 @@ func (svc *Service) GetUserList(param *UserListRequest, pager *app.Pager) ([]*mo
 }
 
 func (svc *Service) CreateUser(param *CreateUserRequest) error {
-	return svc.dao.CreateUser(param.Name, param.State, param.CreatedBy)
+	return svc.dao.CreateUser(param.User, param.Password, param.Email)
 }
 
 func (svc *Service) UpdateUser(param *UpdateUserRequest) error {
@@ -50,4 +58,12 @@ func (svc *Service) UpdateUser(param *UpdateUserRequest) error {
 
 func (svc *Service) DeleteUser(param *DeleteUserRequest) error {
 	return svc.dao.DeleteUser(param.ID)
+}
+
+func (svc *Service) CheckEmail(param *CheckEmail) error {
+	return svc.dao.CheckEmail(param.Email)
+}
+
+func (svc *Service) CheckUser(param *CheckUser) error {
+	return svc.dao.CheckUser(param.User)
 }

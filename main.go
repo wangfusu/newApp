@@ -7,6 +7,7 @@ import (
 	"NewApp/pkg/logger"
 	"NewApp/pkg/setting"
 	"NewApp/pkg/tracer"
+	"NewApp/utils"
 	"context"
 	"flag"
 	"fmt"
@@ -50,6 +51,7 @@ func init() {
 	if err != nil {
 		log.Fatalf("init.setupTracer, err:%v", err)
 	}
+	utils.InitCache()
 }
 
 // @title NewAPP
@@ -135,7 +137,7 @@ func setupDBEngine() error {
 		return err
 	}
 	global.DBEngine.AutoMigrate(model.Model{})
-	if err1 := global.DBEngine.AutoMigrate(&model.Auth{}).Error; err1 != nil {
+	if err1 := global.DBEngine.AutoMigrate(&model.User{}).Error; err1 != nil {
 		c := context.Background()
 		global.Logger.Error(c, err1)
 	}
