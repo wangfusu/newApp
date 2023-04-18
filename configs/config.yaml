@@ -24,8 +24,8 @@ App:
 DataBase:
   DBType: mysql
   UserName: root
-  Password: 123456
-  Host: 43.142.46.98:3306
+  Password: Qazwsx123@@
+  Host: cd-cynosdbmysql-grp-m5nbqdbw.sql.tencentcdb.com:26578
   DBName: newApp
   TablePrefix: app
   Charset: utf8
