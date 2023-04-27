@@ -78,7 +78,7 @@ func Register(c *gin.Context) {
 		return
 	}
 	svc := service.New(c.Request.Context())
-
+	//检查email是否存在
 	email := &service.CheckEmail{Email: param.Email}
 	if err := svc.CheckEmail(email); err != nil {
 		response.ToResponse(gin.H{
@@ -88,6 +88,7 @@ func Register(c *gin.Context) {
 		})
 		return
 	}
+	//检查用户是否存在
 	user := &service.CheckUser{User: param.User}
 	if err := svc.CheckUser(user); err != nil {
 		response.ToResponse(gin.H{
@@ -97,6 +98,7 @@ func Register(c *gin.Context) {
 		})
 		return
 	}
+	//获取邮箱验证码
 	iCode, ok := global.ICache.Get(param.Email)
 	if !ok {
 		response.ToResponse(gin.H{
@@ -106,6 +108,7 @@ func Register(c *gin.Context) {
 		})
 		return
 	}
+	//判断邮箱验证码
 	if param.Code != iCode.(string) {
 		response.ToResponse(gin.H{
 			"data": gin.H{},
@@ -114,13 +117,15 @@ func Register(c *gin.Context) {
 		})
 		return
 	}
-	global.ICache.Delete(param.Email) //验证码校验通过，删除邮箱验证码
+	//验证码校验通过，删除邮箱验证码
+	global.ICache.Delete(param.Email)
 	createUser := &service.CreateUserRequest{
 		User:     param.User,
 		Password: param.Password,
 		Email:    param.Email,
+		ParentID: param.ParentID,
 	}
-
+	//创建用户
 	if err := svc.CreateUser(createUser); err != nil {
 		response.ToResponse(gin.H{
 			"data": gin.H{},
@@ -129,6 +134,7 @@ func Register(c *gin.Context) {
 		})
 		return
 	}
+	//返回成功
 	response.ToResponse(gin.H{
 		"data": gin.H{
 			"user": param.User,

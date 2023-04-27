@@ -18,6 +18,7 @@ type RegisterRequest struct {
 	Password string `json:"password" binding:"required,min=8,max=20"`
 	Email    string `json:"email" binding:"required,min=10,max=30"`
 	Code     string `json:"code" binding:"required,max=6"`
+	ParentID string `json:"parent_id"`
 }
 
 type EmailCodeRequest struct {

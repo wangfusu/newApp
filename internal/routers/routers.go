@@ -46,14 +46,14 @@ func NewRouter() *gin.Engine {
 		apiv1.POST("/get/emailCode", v1.GetEmailCode)
 	}
 	user := v1.User{}
-	userv1 := r.Group("api/v1")
-	userv1.Use(middleware.JWT())
+	userV1 := r.Group("api/v1")
+	userV1.Use(middleware.JWT())
 	{
-		userv1.POST("/user", user.Create)
-		userv1.DELETE("/user/:id", user.Delete)
-		userv1.PUT("/user/:id", user.Update)
-		userv1.PATCH("/user/:id/state", user.Update)
-		userv1.GET("/user", user.List)
+		userV1.POST("/user", user.Create)
+		userV1.DELETE("/user/:id", user.Delete)
+		userV1.PUT("/user/:id", user.Update)
+		userV1.PATCH("/user/:id/state", user.Update)
+		userV1.GET("/user", user.List)
 	}
 	upload := api.NewUpload()
 	r.POST("/upload/file", upload.UploadFile)

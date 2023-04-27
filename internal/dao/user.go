@@ -18,7 +18,7 @@ func (d *Dao) GetUserList(name string, state uint8, page, pageSize int) ([]*mode
 	return User.List(d.engine, pageOffset, pageSize)
 }
 
-func (d *Dao) CreateUser(user, password, email string) error {
+func (d *Dao) CreateUser(user, password, email, parentId string) error {
 	id := utils.CreateUUID()
 	User := model.User{
 		Model:    &model.Model{ID: id},
@@ -26,6 +26,7 @@ func (d *Dao) CreateUser(user, password, email string) error {
 		State:    1,
 		Email:    email,
 		Password: password,
+		ParentID: parentId,
 	}
 	return User.Create(d.engine)
 }

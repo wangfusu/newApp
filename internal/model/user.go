@@ -8,7 +8,7 @@ type User struct {
 	State    uint8  `json:"state"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
-	ParentID uint32 `json:"parent_id"`
+	ParentID string `json:"parent_id"`
 }
 
 func (u User) TableName() string {

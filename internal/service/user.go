@@ -20,6 +20,7 @@ type CreateUserRequest struct {
 	Password string `json:"password" binding:"required,ming=8,max=20"`
 	Email    string `json:"email" binding:"required,min=10,max=30"`
 	State    uint8  `form:"state,default=1" binding:"oneof=0 1"`
+	ParentID string `json:"parent_id"`
 }
 
 type UpdateUserRequest struct {
@@ -49,7 +50,7 @@ func (svc *Service) GetUserList(param *UserListRequest, pager *app.Pager) ([]*mo
 }
 
 func (svc *Service) CreateUser(param *CreateUserRequest) error {
-	return svc.dao.CreateUser(param.User, param.Password, param.Email)
+	return svc.dao.CreateUser(param.User, param.Password, param.Email, param.ParentID)
 }
 
 func (svc *Service) UpdateUser(param *UpdateUserRequest) error {
